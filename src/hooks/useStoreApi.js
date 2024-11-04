@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useStoreApi = () => {
+const useStoreApi = link => {
   const [storeData, setStoreData] = useState([]);
 
   const [loading, setLoading] = useState({
@@ -17,7 +17,7 @@ const useStoreApi = () => {
         message: "Fetching Store Data...",
       });
 
-      const response = await fetch("https://fakestoreapi.com/products");
+      const response = await fetch(link || "https://fakestoreapi.com/products");
 
       if (!response.ok) {
         const errorMessage = `Fetching Store Data From FakeStore Api Failed: ${response.status}`;

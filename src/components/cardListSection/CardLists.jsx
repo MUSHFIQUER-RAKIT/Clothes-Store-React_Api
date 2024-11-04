@@ -1,11 +1,12 @@
 import { useContext } from "react";
 
-import { StoreDataContext } from "../../context";
+import { StoreDataContext, TaskActionContext } from "../../context";
 
 import { SortCart } from "../SVG/svg";
 
 export default function CardLists() {
   const { storeData } = useContext(StoreDataContext);
+  const { sortedData } = useContext(TaskActionContext);
 
   return (
     <div>
@@ -13,7 +14,7 @@ export default function CardLists() {
         <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6 lg:max-w-7xl lg:px-8">
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {/* CARD START  */}
-            {storeData.map(data => (
+            {sortedData.map(data => (
               <div key={data.id} className="relative">
                 <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md lg:aspect-none lg:h-80">
                   <img
@@ -30,7 +31,7 @@ export default function CardLists() {
                     </p>
                   </div>
                   <p className="text-sm font-medium text-gray-900">
-                    {data.price}
+                    {data.price} $
                   </p>
                 </div>
 

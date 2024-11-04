@@ -5,11 +5,13 @@ import { useContext } from "react";
 import { StoreDataContext } from "../../context";
 
 export default function CardBoard() {
-  const { storeData, loading } = useContext(StoreDataContext);
+  const { loading } = useContext(StoreDataContext);
   return (
     <>
       {loading.state ? (
-        <p>loading.message</p>
+        <p className="text-3xl text-center text-teal-600 p-9">
+          {loading.message}
+        </p>
       ) : (
         <>
           <CardAction />
