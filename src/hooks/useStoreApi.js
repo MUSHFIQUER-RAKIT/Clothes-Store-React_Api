@@ -1,16 +1,7 @@
 import { useEffect, useState } from "react";
 
 const useStoreApi = () => {
-  const [storeData, setStoreData] = useState([
-    {
-      id: 1,
-      title: "...",
-      price: "...",
-      category: "...",
-      description: ".DDDDDD..",
-      image: "...",
-    },
-  ]);
+  const [storeData, setStoreData] = useState([]);
 
   const [loading, setLoading] = useState({
     state: false,
@@ -26,9 +17,7 @@ const useStoreApi = () => {
         message: "Fetching Store Data...",
       });
 
-      const response = await fetch("https://fakestoreapi.com/products")
-        .then(res => res.json())
-        .then(json => console.log(json));
+      const response = await fetch("https://fakestoreapi.com/products");
 
       if (!response.ok) {
         const errorMessage = `Fetching Store Data From FakeStore Api Failed: ${response.status}`;
@@ -37,18 +26,9 @@ const useStoreApi = () => {
 
       const data = await response.json();
 
-      setStoreData([
-        {
-          id: data.id,
-          title: data.title,
-          price: data.price,
-          category: data.category,
-          description: data.description,
-          image: data.image,
-        },
-      ]);
+      setStoreData(data);
     } catch (err) {
-      setError(err);
+      setError(err.message || "An error occurred");
     } finally {
       setLoading({
         ...loading,
