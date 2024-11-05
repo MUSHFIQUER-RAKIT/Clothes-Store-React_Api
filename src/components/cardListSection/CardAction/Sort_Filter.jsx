@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
 import { TaskActionContext } from "../../../context";
-import { useStoreApi } from "../../../hooks";
 import { SortArrow } from "../../SVG/svg";
 
 export default function Sort_Filter() {
-  const { setIsAscending } = useContext(TaskActionContext);
-  const { storeData } = useStoreApi(
-    "https://fakestoreapi.com/products/categories"
-  );
+  const { setIsAscending, selectedCategory, changeCategory } =
+    useContext(TaskActionContext);
+  // const { storeData } = useStoreApi(
+  //   "https://fakestoreapi.com/products/categories"
+  // );
 
   const [toggleDropdown, setToggleDropdown] = useState(null);
 
@@ -22,6 +22,15 @@ export default function Sort_Filter() {
   const Togglesort_R_Dropdown = () => {
     setToggleDropdown(null);
     setIsAscending(false);
+  };
+
+  const handleCategorySelect = category => {
+    if (selectedCategory === category) {
+      changeCategory(null);
+    } else {
+      changeCategory(category);
+    }
+    setToggleDropdown(null);
   };
 
   return (
@@ -99,17 +108,26 @@ export default function Sort_Filter() {
             id="filter-dropdown"
           >
             <div className="py-1" role="none">
-              {storeData.map(data => (
+              {[
+                "electronics",
+                "jewelery",
+                "men's clothing",
+                "women's clothing",
+              ].map(category => (
                 <label
-                  key={data}
+                  key={category}
                   className="inline-flex w-full cursor-pointer hover:bg-gray-50 items-center px-4 py-2 text-sm text-gray-700"
                 >
                   <input
                     type="checkbox"
+                    checked={category === selectedCategory}
+                    onChange={() => handleCategorySelect(category)}
                     className="form-checkbox h-4 w-4"
                     id="filter-option-1"
                   />
-                  <span className="ml-2">{data}</span>
+                  <span className="ml-2">
+                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                  </span>
                 </label>
               ))}
             </div>
@@ -119,3 +137,5 @@ export default function Sort_Filter() {
     </div>
   );
 }
+// .charAt(0).toUpperCase() + category.slice(1)
+// ["electronics", "jewelery", "men's clothing", "women's clothing"];

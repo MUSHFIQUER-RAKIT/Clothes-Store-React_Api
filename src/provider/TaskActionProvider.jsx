@@ -3,15 +3,23 @@ import { TaskActionContext } from "../context";
 import { useStoreApi } from "../hooks";
 
 const TaskActionProvider = ({ children }) => {
-  const { storeData } = useStoreApi();
   const [isAscending, setIsAscending] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const { storeData } = useStoreApi(selectedCategory);
+
+  const changeCategory = category => {
+    setSelectedCategory(category);
+  };
 
   const sortedData = [...storeData].sort((a, b) => {
     return isAscending ? a.price - b.price : b.price - a.price;
   });
 
   return (
-    <TaskActionContext.Provider value={{ sortedData, setIsAscending }}>
+    <TaskActionContext.Provider
+      value={{ sortedData, setIsAscending, selectedCategory, changeCategory }}
+    >
       {children}
     </TaskActionContext.Provider>
   );

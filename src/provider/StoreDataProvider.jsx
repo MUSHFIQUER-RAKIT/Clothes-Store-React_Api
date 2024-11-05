@@ -2,10 +2,10 @@ import { StoreDataContext } from "../context";
 import { useStoreApi } from "../hooks";
 
 const StoreDataProvider = ({ children }) => {
-  const { storeData, error, loading } = useStoreApi();
+  const { error, loading } = useStoreApi();
 
   return (
-    <StoreDataContext.Provider value={{ storeData, error, loading }}>
+    <StoreDataContext.Provider value={{ error, loading }}>
       {children}
     </StoreDataContext.Provider>
   );

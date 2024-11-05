@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useStoreApi = link => {
+const useStoreApi = category => {
   const [storeData, setStoreData] = useState([]);
 
   const [loading, setLoading] = useState({
@@ -16,8 +16,11 @@ const useStoreApi = link => {
         state: true,
         message: "Fetching Store Data...",
       });
+      let url = category
+        ? `https://fakestoreapi.com/products/category/${category}`
+        : `https://fakestoreapi.com/products`;
 
-      const response = await fetch(link || "https://fakestoreapi.com/products");
+      const response = await fetch(url);
 
       if (!response.ok) {
         const errorMessage = `Fetching Store Data From FakeStore Api Failed: ${response.status}`;
@@ -40,7 +43,7 @@ const useStoreApi = link => {
 
   useEffect(() => {
     fetchStoreData();
-  }, []);
+  }, [category]);
 
   return { storeData, error, loading };
 };
