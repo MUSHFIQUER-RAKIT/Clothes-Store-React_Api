@@ -6,7 +6,7 @@ const TaskActionProvider = ({ children }) => {
   const [isAscending, setIsAscending] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const { storeData } = useStoreApi(selectedCategory);
+  const { storeData, loading } = useStoreApi(selectedCategory);
 
   const changeCategory = category => {
     setSelectedCategory(category);
@@ -18,7 +18,13 @@ const TaskActionProvider = ({ children }) => {
 
   return (
     <TaskActionContext.Provider
-      value={{ sortedData, setIsAscending, selectedCategory, changeCategory }}
+      value={{
+        sortedData,
+        loading,
+        setIsAscending,
+        selectedCategory,
+        changeCategory,
+      }}
     >
       {children}
     </TaskActionContext.Provider>

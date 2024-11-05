@@ -42,7 +42,11 @@ const useStoreApi = category => {
   };
 
   useEffect(() => {
-    fetchStoreData();
+    let ignore = false;
+
+    if (!ignore) {
+      fetchStoreData();
+    }
   }, [category]);
 
   return { storeData, error, loading };

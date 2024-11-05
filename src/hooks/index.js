@@ -1,3 +1,4 @@
+import useCategoryApi from "./useCategoryApi";
 import useStoreApi from "./useStoreApi";
 
-export { useStoreApi };
+export { useCategoryApi, useStoreApi };

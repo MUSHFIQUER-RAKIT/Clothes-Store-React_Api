@@ -1,13 +1,13 @@
 import { useContext, useState } from "react";
 import { TaskActionContext } from "../../../context";
+import { useCategoryApi } from "../../../hooks";
 import { SortArrow } from "../../SVG/svg";
 
 export default function Sort_Filter() {
   const { setIsAscending, selectedCategory, changeCategory } =
     useContext(TaskActionContext);
-  // const { storeData } = useStoreApi(
-  //   "https://fakestoreapi.com/products/categories"
-  // );
+
+  const { categoryData, loading } = useCategoryApi();
 
   const [toggleDropdown, setToggleDropdown] = useState(null);
 
@@ -108,28 +108,29 @@ export default function Sort_Filter() {
             id="filter-dropdown"
           >
             <div className="py-1" role="none">
-              {[
-                "electronics",
-                "jewelery",
-                "men's clothing",
-                "women's clothing",
-              ].map(category => (
-                <label
-                  key={category}
-                  className="inline-flex w-full cursor-pointer hover:bg-gray-50 items-center px-4 py-2 text-sm text-gray-700"
-                >
-                  <input
-                    type="checkbox"
-                    checked={category === selectedCategory}
-                    onChange={() => handleCategorySelect(category)}
-                    className="form-checkbox h-4 w-4"
-                    id="filter-option-1"
-                  />
-                  <span className="ml-2">
-                    {category.charAt(0).toUpperCase() + category.slice(1)}
-                  </span>
-                </label>
-              ))}
+              {loading.state ? (
+                <p className="text-center text-teal-600 p-9">
+                  {loading.message}
+                </p>
+              ) : (
+                categoryData.map(category => (
+                  <label
+                    key={category}
+                    className="inline-flex w-full cursor-pointer hover:bg-gray-50 items-center px-4 py-2 text-sm text-gray-700"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={category === selectedCategory}
+                      onChange={() => handleCategorySelect(category)}
+                      className="form-checkbox h-4 w-4"
+                      id="filter-option-1"
+                    />
+                    <span className="ml-2">
+                      {category.charAt(0).toUpperCase() + category.slice(1)}
+                    </span>
+                  </label>
+                ))
+              )}
             </div>
           </div>
         )}
