@@ -16,6 +16,14 @@ const TaskActionProvider = ({ children }) => {
     return isAscending ? a.price - b.price : b.price - a.price;
   });
 
+  // Search 
+  const [searchTerm, setSearchTerm] = useState("");
+  const filteredData = sortedData.filter(task =>
+    searchTerm
+      ? task.title.toLowerCase().includes(searchTerm.toLowerCase())
+      : true
+  );
+
   return (
     <TaskActionContext.Provider
       value={{
@@ -24,6 +32,8 @@ const TaskActionProvider = ({ children }) => {
         setIsAscending,
         selectedCategory,
         changeCategory,
+        setSearchTerm,
+        filteredData,
       }}
     >
       {children}

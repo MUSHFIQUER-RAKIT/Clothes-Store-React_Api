@@ -4,7 +4,7 @@ import { TaskActionContext } from "../../context";
 import { SortCart } from "../SVG/svg";
 
 export default function CardLists() {
-  const { sortedData, loading } = useContext(TaskActionContext);
+  const { filteredData, loading } = useContext(TaskActionContext);
 
   return (
     <div>
@@ -12,7 +12,7 @@ export default function CardLists() {
         <div className="mx-auto max-w-2xl px-4 py-4 sm:px-6 lg:max-w-7xl lg:px-8">
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {loading.state
-              ? sortedData.map(data => (
+              ? filteredData.map(data => (
                   <div
                     key={data.id}
                     className="bg-white p-4 rounded-lg shadow animate-pulse"
@@ -24,7 +24,7 @@ export default function CardLists() {
                     <div className="h-10 bg-gray-300 rounded"></div>
                   </div>
                 ))
-              : sortedData.map(data => (
+              : filteredData.map(data => (
                   <div key={data.id} className="relative">
                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md lg:aspect-none lg:h-80">
                       <img
