@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TaskActionContext } from "../context";
-import { useStoreApi } from "../hooks";
+import { useDebounce, useStoreApi } from "../hooks";
 
 const TaskActionProvider = ({ children }) => {
   const [isAscending, setIsAscending] = useState(true);
@@ -16,13 +16,33 @@ const TaskActionProvider = ({ children }) => {
     return isAscending ? a.price - b.price : b.price - a.price;
   });
 
-  // Search 
+  // Search
   const [searchTerm, setSearchTerm] = useState("");
+  // debounced Search
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+
+  const doSearch = useDebounce(value => {
+    setDebouncedSearchTerm(value);
+  }, 700);
+
+  const handleSearchChange = value => {
+    setSearchTerm(value);
+    doSearch(value);
+  };
+
+  // Search
   const filteredData = sortedData.filter(task =>
-    searchTerm
-      ? task.title.toLowerCase().includes(searchTerm.toLowerCase())
+    debouncedSearchTerm
+      ? task.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
       : true
   );
+
+  function handleSearch(e) {
+    handleSearchChange(e.target.value);
+  }
+
+  // Final Data To Dispkay 
+  const displayData = filteredData.length > 0 ? filteredData : sortedData;
 
   return (
     <TaskActionContext.Provider
@@ -32,8 +52,8 @@ const TaskActionProvider = ({ children }) => {
         setIsAscending,
         selectedCategory,
         changeCategory,
-        setSearchTerm,
-        filteredData,
+        displayData,
+        handleSearch,
       }}
     >
       {children}
