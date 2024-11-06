@@ -3,7 +3,7 @@ import { TaskActionContext } from "../../../context";
 import { SortCart, SortSearch } from "../../SVG/svg";
 
 export default function Search_Cart() {
-  const { handleSearch } = useContext(TaskActionContext);
+  const { handleSearch, cartItems } = useContext(TaskActionContext);
 
   return (
     <div className="flex gap-2 items-center">
@@ -26,7 +26,7 @@ export default function Search_Cart() {
         <a href="#" className="group -m-2 flex items-center p-2">
           <SortCart />
           <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-            0
+            {cartItems.length}
           </span>
           <span className="sr-only">items in cart, view bag</span>
         </a>

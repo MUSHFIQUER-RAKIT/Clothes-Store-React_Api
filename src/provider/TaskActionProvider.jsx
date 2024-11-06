@@ -7,6 +7,8 @@ const TaskActionProvider = ({ children }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const { storeData, loading } = useStoreApi(selectedCategory);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [cartItems, setCartItems] = useState([]);
 
   const changeCategory = category => {
     setSelectedCategory(category);
@@ -17,7 +19,6 @@ const TaskActionProvider = ({ children }) => {
   });
 
   // Search
-  const [searchTerm, setSearchTerm] = useState("");
   // debounced Search
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
 
@@ -41,8 +42,21 @@ const TaskActionProvider = ({ children }) => {
     handleSearchChange(e.target.value);
   }
 
-  // Final Data To Dispkay 
+  // Final Data To Dispkay
   const displayData = filteredData.length > 0 ? filteredData : sortedData;
+
+  // Cart Listsss
+  const addToCart = product => {
+    setCartItems(prevCart => [...prevCart, product]);
+  };
+
+  const removeFromCart = productId => {
+    setCartItems(prevCart => prevCart.filter(item => item.id !== productId));
+  };
+
+  const isProductInCart = productId => {
+    return cartItems.some(item => item.id === productId);
+  };
 
   return (
     <TaskActionContext.Provider
@@ -54,6 +68,10 @@ const TaskActionProvider = ({ children }) => {
         changeCategory,
         displayData,
         handleSearch,
+        cartItems,
+        addToCart,
+        removeFromCart,
+        isProductInCart,
       }}
     >
       {children}

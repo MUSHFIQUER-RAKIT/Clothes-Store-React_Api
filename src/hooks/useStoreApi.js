@@ -47,6 +47,10 @@ const useStoreApi = category => {
     if (!ignore) {
       fetchStoreData();
     }
+
+    return () => {
+      ignore = true;
+    };
   }, [category]);
 
   return { storeData, error, loading };

@@ -4,7 +4,8 @@ import { TaskActionContext } from "../../context";
 import { SortCart } from "../SVG/svg";
 
 export default function CardLists() {
-  const { displayData, loading } = useContext(TaskActionContext);
+  const { displayData, loading, addToCart, removeFromCart, isProductInCart } =
+    useContext(TaskActionContext);
 
   return (
     <div>
@@ -35,7 +36,9 @@ export default function CardLists() {
                     </div>
                     <div className="mt-4 px-3 pb-4">
                       <div>
-                        <h3 className="text-sm text-gray-700">{data.title}</h3>
+                        <h3 className="text-sm text-gray-700  h-14 overflow-hidden">
+                          {data.title}
+                        </h3>
                         <p className="mt-1 text-sm text-gray-500">
                           {data.category}
                         </p>
@@ -46,10 +49,19 @@ export default function CardLists() {
                     </div>
 
                     <div className="cursor-pointer rounded-md bg-white text-[0.8125rem] font-medium leading-5 text-slate-700 ring-1 ring-slate-700/10  hover:ring-1 hover:ring-slate-700/20 hover:bg-slate-50 hover:text-slate-900 items-center text-center mb-3 mx-3 flex-1">
-                      <div className="flex px-3 py-2 justify-center">
+                      <button
+                        className="flex px-3 py-2 h-full w-full justify-center place-content-center"
+                        onClick={() =>
+                          isProductInCart(data.id)
+                            ? removeFromCart(data.id)
+                            : addToCart(data)
+                        }
+                      >
                         <SortCart />
-                        Add To Cart
-                      </div>
+                        {isProductInCart(data.id)
+                          ? "Remove from Cart"
+                          : "Add to Cart"}
+                      </button>
                     </div>
                   </div>
                 ))}
